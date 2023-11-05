@@ -1,2 +1,26 @@
 @startuml
-@enduml
+actor Manager as Manager
+
+participant Browser as a
+participant EventController as b
+participant EventService as c
+participant EventRepository as d
+database Database as e
+
+Manager -> a: 1. Click "Cập nhật" button
+a -> b++: 2. Send a request
+b -> c++: 3. Call updateEvent()
+c -> d++: 4. Call update()
+d -> e++: 5. Update
+
+e --> d--: 6. Return result
+alt Update success 
+    d --> c: 7.1. Return result
+    c --> b: 8.1. Return sucess response
+    b --> a: 9.1. Return sucess response
+else Update fail
+    d --> c--: 7.2. Return result
+    c --> b--: 8.2. Return fail response
+    b --> a--: 9.2. Return fail response
+end
+@endumls
